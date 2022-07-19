@@ -1,0 +1,7 @@
+{
+  "name": "csiapp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
