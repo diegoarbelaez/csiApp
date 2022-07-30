@@ -1,0 +1,63 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <!-- <ion-title>login</ion-title> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form [formGroup]="validador" (ngSubmit)="login(validador.value)">
+    
+    <ion-card>
+      <div class="contenedorLogo">
+        <ion-img class="logoCSI" src="assets/logo_csi_1.png"></ion-img>
+      </div>
+      <p class="slogan">Seguridad al Instante</p>
+    </ion-card>
+
+
+    <div class="contenedorFormulario">
+      <ion-item>
+        <ion-label class="inputsFormulario" position="floating">Correo Electrónico</ion-label>
+        <!-- <ion-input name="correo" class="inputsFormulario" [(ngModel)]="datosLogin.correo" required></ion-input> -->
+        <ion-input name="correo" formControlName="correo" class="inputsFormulario" [(ngModel)]="credenciales.correo" required></ion-input>
+
+      </ion-item>
+      <div>
+          <ng-container *ngFor="let validation of mensajesValidacion.correo">
+                <div class="mensajesError" *ngIf="validador.get('correo').hasError(validation.type) && (validador.get('correo').dirty || validador.get('correo').touched)">
+                   {{validation.message}}
+                </div>
+          </ng-container>
+      </div>
+
+
+      <ion-item>
+        <ion-label class="inputsFormulario" position="floating">Contraseña</ion-label>
+        <ion-input name="password" formControlName="password" class="inputsFormulario" type="password"  [(ngModel)]="credenciales.password" autocomplete="password" required>
+        </ion-input>
+      </ion-item>
+
+      <div>
+      <ng-container *ngFor="let validation of mensajesValidacion.password">
+           <div class="mensajesError" *ngIf="validador.get('password').hasError(validation.type) && (validador.get('password').dirty || validador.get('password').touched)">
+              {{validation.message}}
+           </div>
+       </ng-container>
+  </div>
+
+
+      <ion-button class="btn-iniciarSesion" type="submit" fill="solid" shape="round" expand="block" [disabled]="!validador.valid" >Iniciar Sesión
+      
+      </ion-button>
+
+  
+
+    </div>
+
+    <div class="registrate">
+      <!-- <p>¿No tienes cuenta? <span class="negrilla">Registrate</span></p> -->
+      <p>¿No tienes cuenta? <a routerLink="/signup"><b>Registrate</b></a>
+    </div>
+  </form>
+</ion-content>

@@ -1,0 +1,35 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <!-- <ion-title>login</ion-title> -->
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="divContenedorPanico">
+    <ion-card>
+      <ion-img class="logoCSI" src="assets/logo_csi_1.png"></ion-img>
+      <p class="slogan">Seguridad al Instante</p>
+    </ion-card>
+    <div class="divContenedorBoton">
+      <div style="text-align:center">
+        <span class="botonPanico">
+          <p class="centradoPanico">
+            <ion-icon class="powePanico" name="power-outline"></ion-icon>
+          </p>
+        </span>
+      </div>
+    </div>
+    <div class="divContenedorBoton">
+      <div style="text-align:center">
+        <div class="chatPanico">
+          <p><b>Estamos aquí para ayudarte</b></p>
+          <p>Siempre que tengas una situación de riesgo, aquí estaremos para apoyarte</p>
+        </div>
+      </div>
+    </div>
+
+    <ion-button class="btn-iniciarSesion2" [routerLink]="['/submenu1']" routerLinkActive="router-link-active"
+      fill="solid" shape="round" expand="block">Gestionar mi Cuenta</ion-button>
+
+  </div>
+</ion-content>

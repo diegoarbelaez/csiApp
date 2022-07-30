@@ -24,3 +24,251 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+/* Estilos para el Login */
+
+
+
+ion-content {
+    --ion-background-color: #1C3957 !important;
+
+}
+
+ion-card {
+    box-shadow: none !important;
+}
+
+ion-header {
+    position: absolute;
+}
+
+ion-toolbar {
+    --ion-bakcground-color: transparent;
+    --opacity: 0;
+}
+
+ion-card-title {
+    color: rgb(255, 255, 255);
+    font-size: small;
+    text-align: center;
+}
+
+.divContenedorBoton {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.divContenedorCentrar {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.logoCSI {
+    padding: auto;
+    box-shadow: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+.contenedorLogo {
+    padding-top: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.slogan {
+    padding: 0px;
+    margin: 0px;
+    text-align: center;
+    color: aliceblue;
+}
+
+.btn-iniciarSesion {
+    --ion-primary-color: #470505;
+    color: aliceblue;
+    border-color: aliceblue;
+    --border-color: aliceblue;
+    margin-left: 50px;
+    margin-right: 50px;
+    margin-top: 100px;
+}
+
+.negrilla {
+    font-weight: 800;
+}
+
+.registrate {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+
+}
+
+/* Estilos para Iniciar Sesion */
+
+.mensajesError {
+    font-size: 16px;
+    color: red;
+    margin-left: 18px;
+}
+
+.contenedorFormulario {
+    margin: 30px !important;
+
+
+}
+
+.inputsFormulario {
+    color: rgb(255, 255, 255) !important;
+}
+
+.contenedorIniciarSesion {
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-top: 10px;
+
+    .btn-iniciarSesion {
+        --ion-color-primary: #0079FB;
+        color: #ffffff
+    }
+}
+
+.registrate {
+    margin-top: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: aliceblue;
+
+}
+
+/* Estilos Crear Cuenta Signup */
+
+.crearCuenta {
+    text-align: center;
+    font-weight: bold;
+    color: aliceblue;
+}
+
+/* Estilos Página Información */
+
+.textoInformacion {
+    color: #ffffff !important;
+    font-size: medium !important;
+}
+
+.textoInformacionNegrita {
+    color: #ffffff !important;
+    font-size: medium !important;
+    font-size: 15px;
+    font-weight: 900;
+
+}
+
+.divContenedorInformacion {
+    display: flex !important;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-AceptarInformacion {
+    margin: 10px;
+    --ion-color-primary: #0079FB;
+    color: #ffffff
+}
+
+/* Botón de Pánico */
+
+.divContenedorPanico {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.divContenedorBoton {
+    display: flex !important;
+    //height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.botonPanico {
+    margin-top: 40px;
+    background-color: rgb(162, 29, 29);
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    display: flex;
+    /* or inline-flex */
+    align-items: center;
+    justify-content: center;
+}
+
+.powePanico {
+    font-size: 150px;
+    color: #ffffff;
+}
+
+.chatPanico {
+    width: 250px;
+    margin-top: 40px;
+    padding: 10px;
+    position: relative;
+    background: #ffffff;
+    border-radius: .4em;
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2);
+}
+
+.chatPanico:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border: 18px solid transparent;
+    border-bottom-color: #ffffff;
+    border-top: 0;
+    margin-left: -18px;
+    margin-top: -18px;
+    filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
+}
+
+/* Submen1 */
+
+.titulo_submenu1 {
+    color: #ffffff;
+    background: var(--ion-background-color);
+    padding: 0px;
+    margin: 0px;
+    color: aliceblue;
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+.listaSubmenu1 {
+    margin-top: 60px;
+}
+
+.texto-pequeno{
+    font-size: 12px;
+}
+.apellido_lista{
+    color: #3dc2ff !important;
+}
+
+.boton_agregar_contactos{
+    color: #ffffff !important;
+    background-color: #0079FB;
+}

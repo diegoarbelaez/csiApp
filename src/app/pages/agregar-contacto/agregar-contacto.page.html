@@ -1,0 +1,76 @@
+<ion-header>
+  <ion-toolbar>
+    <p class="titulo_submenu1">AGREGAR CONTACTO</p>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/panico" text="Regresar" color="secondary">Regresar</ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form [formGroup]="validador" (ngSubmit)="crearContacto(validador.value)">
+    
+    <ion-card>
+      <div class="contenedorLogo">
+        <ion-img class="logoCSI" src="assets/logo_csi_1.png"></ion-img>
+      </div>
+      <p class="slogan">Seguridad al Instante</p>
+    </ion-card>
+
+
+    <div class="contenedorFormulario">
+      <ion-item>
+        <ion-label class="inputsFormulario" position="floating">Nombre</ion-label>
+        <!-- <ion-input name="correo" class="inputsFormulario" [(ngModel)]="datosLogin.correo" required></ion-input> -->
+        <ion-input name="nombreContacto" formControlName="nombreContacto" class="inputsFormulario" required></ion-input>
+
+      </ion-item>
+      <div>
+          <ng-container *ngFor="let validation of mensajesValidacion.nombreContacto">
+                <div class="mensajesError" *ngIf="validador.get('nombreContacto').hasError(validation.type) && (validador.get('nombreContacto').dirty || validador.get('nombreContacto').touched)">
+                   {{validation.message}}
+                </div>
+          </ng-container>
+      </div>
+
+      <ion-item>
+        <ion-label class="inputsFormulario" position="floating">Teléfono del Contacto</ion-label>
+        <!-- <ion-input name="correo" class="inputsFormulario" [(ngModel)]="datosLogin.correo" required></ion-input> -->
+        <ion-input name="telefonoContacto" formControlName="telefonoContacto" class="inputsFormulario" required></ion-input>
+
+      </ion-item>
+      <div>
+          <ng-container *ngFor="let validation of mensajesValidacion.telefonoContacto">
+                <div class="mensajesError" *ngIf="validador.get('telefonoContacto').hasError(validation.type) && (validador.get('telefonoContacto').dirty || validador.get('telefonoContacto').touched)">
+                   {{validation.message}}
+                </div>
+          </ng-container>
+      </div>
+
+
+      <ion-item>
+        <ion-label class="inputsFormulario" position="floating">Descripción</ion-label>
+        <ion-input name="descripcionContacto" formControlName="descripcionContacto" class="inputsFormulario" required>
+        </ion-input>
+      </ion-item>
+
+      <div>
+      <ng-container *ngFor="let validation of mensajesValidacion.descripcionContacto">
+           <div class="mensajesError" *ngIf="validador.get('descripcionContacto').hasError(validation.type) && (validador.get('descripcionContacto').dirty || validador.get('descripcionContacto').touched)">
+              {{validation.message}}
+           </div>
+       </ng-container>
+  </div>
+
+
+      <ion-button class="btn-iniciarSesion" type="submit" fill="solid" shape="round" expand="block" [disabled]="!validador.valid" >Crear Contacto
+      
+      </ion-button>
+
+  
+
+    </div>
+
+  </form>
+</ion-content>

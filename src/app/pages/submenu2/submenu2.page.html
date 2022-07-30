@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <p class="titulo_submenu1">EDITAR TUS CONTACTOS</p>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/panico" text="Regresar" color="secondary">Regresar</ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  
+  <ion-list class="listaSubmenu1">
+    <ion-button class="boton_agregar_contactos" shape="round" expand="block" [routerLink]="['/agregar-contacto']" routerLinkActive="router-link-active"  expand="block" fill="clear" shape="round">
+      Agregar Contactos
+    </ion-button>
+    <ion-item-sliding *ngFor="let item of contactos | async">
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="eliminarContacto(item)">
+          <ion-icon name="trash-outline" slot="icon-only"></ion-icon>
+          Eliminar
+        </ion-item-option>
+      </ion-item-options>
+      <ion-item>
+        <ion-label color="light">
+          <h3>{{item.nombreContacto}}</h3>
+          <p class="apellido_lista">{{item.descripcionContacto}}</p>
+        </ion-label>
+        <ion-label color="secondary" slot="end" class="ion-text-end texto-pequeno">{{item.telefonoContacto}}</ion-label>
+      </ion-item>
+    </ion-item-sliding>
+  </ion-list>
+</ion-content>
