@@ -272,3 +272,19 @@ ion-card-title {
     color: #ffffff !important;
     background-color: #0079FB;
 }
+
+/* Timer */
+
+.timer-text{
+    transform: rotate(90deg);
+    transform-origin: center;
+    font-size: 36px;
+    text-anchor: middle;
+    font-weight: 600;
+    fill:#1C3957;
+}
+
+#progress-circle{
+    margin-top: 50px;
+    transform: rotate(-90deg);
+}

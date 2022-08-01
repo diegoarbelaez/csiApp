@@ -49,6 +49,10 @@ const routes: Routes = [
     path: 'agregar-contacto',
     loadChildren: () => import('./pages/agregar-contacto/agregar-contacto.module').then( m => m.AgregarContactoPageModule)
   },
+  {
+    path: 'timer',
+    loadChildren: () => import('./pages/timer/timer.module').then( m => m.TimerPageModule)
+  },
 ];
 
 @NgModule({

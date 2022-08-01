@@ -13,9 +13,16 @@
     <div class="divContenedorBoton">
       <div style="text-align:center">
         <span class="botonPanico">
-          <p class="centradoPanico">
-            <ion-icon class="powePanico" name="power-outline"></ion-icon>
-          </p>
+          
+            <!--  
+            <ion-button class="powePanico">
+              <ion-icon name="power-outline"></ion-icon>
+            </ion-button> -->
+
+            <ion-button shape="circle" [routerLink]="['/timer']">
+              <ion-icon class="powePanico"  routerLinkActive="router-link-active"  slot="icon-only" name="power-outline"></ion-icon>
+            </ion-button>
+          
         </span>
       </div>
     </div>
