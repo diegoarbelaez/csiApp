@@ -19,13 +19,26 @@ export class TimerPage implements OnInit {
   interval;
   state: 'start' | 'stop' = 'stop';
 
+  //Variables de eventos
+  evento1: boolean = false; //Accidente de tránsito
+  evento2: boolean = false; //Atraco 
+  evento3: boolean = false; //Afección de Salud
+  evento4: boolean = false; //Persona Sospechosa
+  evento5: boolean = false; //Animal Perdido
+  evento6: boolean = false; //Persona Siguiendome
+
+
   startDuration = 1;
 
   circleR = circleR;
   circleDasharray = circleDasharray;
 
 
-  constructor(private navCtrl:NavController) { }
+  constructor(private navCtrl: NavController) { }
+
+  ionViewWillEnter() {
+    this.startTimer(1);
+  }
 
   startTimer(duration: number) {
     this.state = 'start';
@@ -46,9 +59,9 @@ export class TimerPage implements OnInit {
 
     const text = minutes + ':' + seconds;
     this.time.next(text);
-    
+
     const totalTime = this.startDuration * 15;
-    const percentage = ((totalTime-this.timer)/totalTime)*100;
+    const percentage = ((totalTime - this.timer) / totalTime) * 100;
     this.percent.next(percentage);
 
     --this.timer
@@ -57,14 +70,15 @@ export class TimerPage implements OnInit {
       //this.startTimer(this.startDuration);
       this.lanzarAlerta();
       this.stopTimer();
-      this.navCtrl.navigateRoot('/panico');
+      this.navCtrl.navigateRoot('/confirmacion');
 
     }
 
   }
 
-  lanzarAlerta(){
+  lanzarAlerta() {
     console.log("Enviando Alerta");
+    //Aquí está el código para enviar las coordenadas y lo que se obtenga de los eventos
   }
 
   percentageOffset(percent) {
@@ -76,6 +90,65 @@ export class TimerPage implements OnInit {
     clearInterval(this.interval);
     this.time.next('00:00');
     this.state = 'stop';
+  }
+
+  cambiarEstado(evento_reportar) {
+    switch (evento_reportar) {
+      case 1:
+        this.evento1 = !this.evento1;
+        this.evento2 = false;
+        this.evento3 = false;
+        this.evento4 = false;
+        this.evento5 = false;
+        this.evento6 = false;
+        break;
+      case 2:
+        this.evento2 = !this.evento2;
+        this.evento1 = false;
+        this.evento3 = false;
+        this.evento4 = false;
+        this.evento5 = false;
+        this.evento6 = false;
+
+        break;
+      case 3:
+        this.evento3 = !this.evento3;
+        this.evento1 = false;
+        this.evento2 = false;
+        this.evento4 = false;
+        this.evento5 = false;
+        this.evento6 = false;
+
+        break;
+      case 4:
+        this.evento4 = !this.evento4;
+        this.evento1 = false;
+        this.evento2 = false;
+        this.evento3 = false;
+        this.evento5 = false;
+        this.evento6 = false;
+
+        break;
+      case 5:
+        this.evento5 = !this.evento5;
+        this.evento1 = false;
+        this.evento2 = false;
+        this.evento3 = false;
+        this.evento4 = false;
+        this.evento6 = false;
+
+        break;
+      case 6:
+        this.evento6 = !this.evento6;
+        this.evento1 = false;
+        this.evento2 = false;
+        this.evento3 = false;
+        this.evento4 = false;
+        this.evento5 = false;
+
+        break;
+    }
+
   }
 
   ngOnInit() {

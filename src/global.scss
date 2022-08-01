@@ -245,6 +245,11 @@ ion-card-title {
     filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1));
 }
 
+.gestionarCuenta{
+    color: #ffffff;
+    background-color: var(--ion-color-primary);
+}
+
 /* Submen1 */
 
 .titulo_submenu1 {
@@ -261,30 +266,89 @@ ion-card-title {
     margin-top: 60px;
 }
 
-.texto-pequeno{
+.texto-pequeno {
     font-size: 12px;
 }
-.apellido_lista{
+
+.apellido_lista {
     color: #3dc2ff !important;
 }
 
-.boton_agregar_contactos{
+.boton_agregar_contactos {
     color: #ffffff !important;
     background-color: #0079FB;
 }
 
 /* Timer */
 
-.timer-text{
+.timer-text {
     transform: rotate(90deg);
     transform-origin: center;
-    font-size: 36px;
+    font-size: 30px;
     text-anchor: middle;
     font-weight: 600;
-    fill:#1C3957;
+    fill: #ffffff;
 }
 
-#progress-circle{
-    margin-top: 50px;
+#progress-circle {
+    margin-top: 10px;
     transform: rotate(-90deg);
 }
+
+.eventoActivado {
+    color: #ffffff !important;
+    background-color: #0079FB !important;
+}
+
+.eventoDesactivado {
+    background-color: #243f5c !important;
+    color: #b9b9b9;
+}
+
+.continuar {
+    color: #ffffff;
+    background-color: #1DA227;
+}
+
+.cancelar {
+    color: #ffffff;
+    background-color: #ff0000;
+}
+
+.texto_apoyo1 {
+    text-align: center;
+    padding: 10px;
+    color: #ffffff;
+}
+
+.activandoText{
+    padding: 0px;
+    margin: 0px;
+    font-weight: 600;
+}
+
+/* CONFIRMACION */
+
+.botonConfirmacion {
+    margin-top: 40px;
+    background-color: rgb(29, 162, 39);
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    display: flex;
+    /* or inline-flex */
+    align-items: center;
+    justify-content: center;
+}
+
+.poweConfirmacion {
+    font-size: 150px;
+    color: #ffffff;
+}
+
+.continuar{
+    color: #ffffff;
+    background-color: rgb(29, 162, 39);
+
+}
+

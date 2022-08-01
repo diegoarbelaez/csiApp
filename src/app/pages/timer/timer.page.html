@@ -1,7 +1,13 @@
 <ion-content>
   <ion-row class="ion-justify-content-center">
-   
-    <svg id="progress-circle" width="50vh" heigth="50vh" viewBox="0 0 200 200">
+    <ion-card>
+      <ion-img class="logoCSI" src="assets/logo_csi_1.png"></ion-img>
+      <p class="slogan">Seguridad al Instante</p>
+    </ion-card>
+    <p class="activandoText" class="texto_apoyo1">
+      <b>ACTIVANDO BOTÓN DE PÁNICO</b>
+    </p>
+    <svg id="progress-circle" width="40vh" heigth="40vh" viewBox="0 0 200 200">
       <linearGradient id="linearColors1" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0%" stop-color="#A21D1D"></stop>
         <stop offset="100%" stop-color="#FF0000"></stop>
@@ -12,28 +18,38 @@
         [attr.stroke-dashoffset]="percentageOffset(percent|async)" />
       <text x="50%" y="55%" class="timer-text">{{time |async}}</text>
     </svg>
-    <h1>{{time | async}}</h1>
   </ion-row>
-  
-  <ion-chip>
-  <ion-label>Default</ion-label>
-</ion-chip>
 
-<ion-chip>
-  <ion-label color="secondary">Secondary Label</ion-label>
-</ion-chip>
 
-<ion-chip color="secondary">
-  <ion-label color="dark">Secondary w/ Dark label</ion-label>
-</ion-chip>
+  <ion-chip [ngClass]="evento1 == true ? 'eventoActivado': 'eventoDesactivado'" (click)="cambiarEstado(1)">
+    <ion-label>Accidente de Tránsito</ion-label>
+  </ion-chip>
+  <ion-chip [ngClass]="evento2 == true ? 'eventoActivado': 'eventoDesactivado'" (click)="cambiarEstado(2)">
+    <ion-label>Afección de Salud</ion-label>
+  </ion-chip>
+  <ion-chip [ngClass]="evento3 == true ? 'eventoActivado': 'eventoDesactivado'" (click)="cambiarEstado(3)">
+    <ion-label>Emergencia de Salud</ion-label>
+  </ion-chip>
+  <ion-chip [ngClass]="evento4 == true ? 'eventoActivado': 'eventoDesactivado'" (click)="cambiarEstado(4)">
+    <ion-label>Persona Sospechosa</ion-label>
+  </ion-chip>
+  <ion-chip [ngClass]="evento5 == true ? 'eventoActivado': 'eventoDesactivado'" (click)="cambiarEstado(5)">
+    <ion-label>Animal Perdido</ion-label>
+  </ion-chip>
+  <ion-chip [ngClass]="evento6 == true ? 'eventoActivado': 'eventoDesactivado'" (click)="cambiarEstado(6)">
+    <ion-label>Persona Siguiendome</ion-label>
+  </ion-chip>
 
+  <p class="ion-padding" class="texto_apoyo1">
+    ACABAS DE PRESIONAR EL BOTÓN DE PÁNICO, LA ALARMA SE VA A DISPARAR CUANDO TERMINE EL CONTADOR
+  </p>
 
 
 </ion-content>
 <ion-footer>
-  <ion-button *ngIf="state === 'stop'" (click)="startTimer(startDuration)" class="info" expand="block" fill="clear"
-    shape="round">
-    START</ion-button>
-  <ion-button *ngIf="state === 'start'" (click)="stopTimer()" class="danger" expand="block" fill="clear" shape="round">
-    STOP</ion-button>
+
+  <ion-button class="ion-padding" (click)="stopTimer()" shape="round" routerLink="/panico" expand="full" class="cancelar" fill="clear" shape="round">
+    CANCELAR
+  </ion-button>
+  
 </ion-footer>

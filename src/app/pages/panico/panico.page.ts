@@ -8,12 +8,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PanicoPage implements OnInit {
 
-  constructor() { }
+  mostrarAyuda:boolean = true;
+
+  constructor() {
+    
+  }
 
   ngOnInit() {
-
-
-
+    
   }
 
 }

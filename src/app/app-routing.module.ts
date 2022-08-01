@@ -53,6 +53,10 @@ const routes: Routes = [
     path: 'timer',
     loadChildren: () => import('./pages/timer/timer.module').then( m => m.TimerPageModule)
   },
+  {
+    path: 'confirmacion',
+    loadChildren: () => import('./pages/confirmacion/confirmacion.module').then( m => m.ConfirmacionPageModule)
+  },
 ];
 
 @NgModule({
