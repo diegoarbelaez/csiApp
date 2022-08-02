@@ -16,11 +16,15 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 //Para hacer peticiones http
 import { HttpClientModule } from '@angular/common/http';
 
+//GPS
+import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
+
+
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,IonicStorageModule.forRoot(),ReactiveFormsModule, FormsModule, HttpClientModule],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [Geolocation, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
   
 })
