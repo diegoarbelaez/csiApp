@@ -57,6 +57,10 @@ const routes: Routes = [
     path: 'confirmacion',
     loadChildren: () => import('./pages/confirmacion/confirmacion.module').then( m => m.ConfirmacionPageModule)
   },
+  {
+    path: 'editarperfil',
+    loadChildren: () => import('./pages/editarperfil/editarperfil.module').then( m => m.EditarperfilPageModule)
+  },
 ];
 
 @NgModule({

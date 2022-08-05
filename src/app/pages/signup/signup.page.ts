@@ -16,6 +16,19 @@ export class SignupPage implements OnInit {
   //esto es para no tener que ingresar usuario y contraseña mientras estemos en pruebas
   //creamos un objeto para guardar los valores default y luego con ngModel los dejamos como default
   datosRegistro = {
+    correo : '',
+    cedula : '',
+    nombres: '',
+    apellidos : '',
+    direccion: '',
+    telefono: '',
+    password: '',
+    password2: ''
+  }
+
+  /*
+
+    datosRegistro = {
     correo : "diegoarbelaez.co@gmail.com",
     cedula : '94287419',
     nombres: 'Diego Fernando',
@@ -25,6 +38,8 @@ export class SignupPage implements OnInit {
     password: 'Kuzavy46',
     password2: 'Kuzavy56'
   }
+
+  */
 
   mensajesValidacion = {
     correo: [
@@ -75,6 +90,11 @@ export class SignupPage implements OnInit {
 
     if(valido){
       //Pagina que se muestra cuando el login es OK
+      //Aqui falta guardar el Token en la BD y el ID del usuario, para que pueda ir al botón de pánico
+      //Es decir hacer la misma rutina de un login
+
+
+
       this.navCtrl.navigateRoot('/informacion', {animated:true});
     }
     else {

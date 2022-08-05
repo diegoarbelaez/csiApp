@@ -13,43 +13,55 @@ export class Submenu2Page implements OnInit {
 
   contactos: Observable<any>;
 
-  id_usuario: string = null;
+  id_usuario;
   token: string = null;
   @ViewChild(IonList) listado: IonList;
 
   constructor(private crud: CrudContactosService, private storage: Storage) {
+    //this.contactos = this.crud.getContactos();
+    this.cargarIdUsuario();
+    console.log("submenu2::OnInit, acaba de cargar id_usuario");
+    console.log("submenu2::OnInit, id_usuario="+this.id_usuario);
+    //this.contactos = this.crud.getContactos3(this.id_usuario);
+    //console.log("submenu2::OnInit, acaba de llamar getContactos3");
   }
 
   ngOnInit() {
-
-    this.contactos = this.crud.getContactos();
     //this.recargar();
   }
 
   ionViewWillEnter() {
-    this.contactos = this.crud.getContactos();
+    this.cargarIdUsuario();
   }
 
-  async cargarToken() {
+  async cargarIdUsuario(){
+    this.id_usuario = await this.crud.cargarIdUsuario2();
+    console.log("submenu2::cargarIdUsuario -> id_usuario:"+this.id_usuario);
+    //cargamos de una vez el listado de usuarios
+    this.contactos = this.crud.getContactos3(this.id_usuario);
+  }
+
+  /*async cargarToken() {
     console.log("CargarToken");
     await this.storage.create();
     this.token = await this.storage.get('token') || null;
 
-  }
+  }*/
 
-  async cargarIdUsuario() {
+  /*async cargarIdUsuario() {
     await this.storage.create();
     this.id_usuario = await this.storage.get('id_usuario') || null;
+    console.log("cargarIdUsuario - completado, cargado "+this.id_usuario)
 
-  }
+  }*/
 
   eliminarContacto(event) {
     this.crud.eliminarContacto(event["id_contacto"]);
     this.listado.closeSlidingItems();
-    this.contactos = this.crud.getContactos();
+    this.contactos = this.crud.getContactos3(this.id_usuario);
   }
-  agregarContacto() {
+  /*agregarContacto() {
 
-  }
+  }*/
 
 }

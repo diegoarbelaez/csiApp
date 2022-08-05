@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-toolbar>
+    <p class="titulo_submenu1">Edición de Perfil</p>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/submenu1" text="Regresar" color="secondary">Regresar</ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <div class="contenedorFormulario">
+    
+    <form class="formularioActualizar" [formGroup]="validador" (ngSubmit)="actualizar(validador.value)">
+      <ion-item>
+        <ion-label class="inputsFormulario" position="floating">Correo Electrónico</ion-label>
+        <ion-input name="correo" formControlName="correo" class="inputsFormulario" [(ngModel)]="datosRegistro.correo"
+          placeholder="Digite el correo"></ion-input>
+      </ion-item>
+      <div>
+        <ng-container *ngFor="let validation of mensajesValidacion.correo">
+          <div class="mensajesError"
+            *ngIf="validador.get('correo').hasError(validation.type) && (validador.get('correo').dirty || validador.get('correo').touched)">
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+      <ion-item>
+        <ion-label class="inputsFormulario" position="floating">Cédula</ion-label>
+        <ion-input [disabled]="true" name="cedula" formControlName="cedula" class="inputsFormulario" [(ngModel)]="datosRegistro.cedula"
+          placeholder="Ingrese su cedula" ></ion-input>
+      </ion-item>
+      <div>
+        <ng-container *ngFor="let validation of mensajesValidacion.cedula">
+          <div class="mensajesError"
+            *ngIf="validador.get('cedula').hasError(validation.type) && (validador.get('cedula').dirty || validador.get('cedula').touched)">
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+      <ion-item>
+        <ion-label class="inputsFormulario" position="floating">Nombres</ion-label>
+        <ion-input name="nombres" formControlName="nombres" class="inputsFormulario" [(ngModel)]="datosRegistro.nombres"
+          placeholder="Digite su Nombre"></ion-input>
+      </ion-item>
+      <div>
+        <ng-container *ngFor="let validation of mensajesValidacion.nombres">
+          <div class="mensajesError"
+            *ngIf="validador.get('nombres').hasError(validation.type) && (validador.get('nombres').dirty || validador.get('nombres').touched)">
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+      <ion-item>
+        <ion-label class="inputsFormulario" position="floating">Apellidos</ion-label>
+        <ion-input name="apellidos" formControlName="apellidos" class="inputsFormulario"
+          [(ngModel)]="datosRegistro.apellidos" placeholder="Ingrese su Apellido"></ion-input>
+      </ion-item>
+      <div>
+        <ng-container *ngFor="let validation of mensajesValidacion.apellidos">
+          <div class="mensajesError"
+            *ngIf="validador.get('apellidos').hasError(validation.type) && (validador.get('apellidos').dirty || validador.get('apellidos').touched)">
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+      <ion-item>
+        <ion-label class="inputsFormulario" position="floating">Dirección</ion-label>
+        <ion-input name="direccion" formControlName="direccion" class="inputsFormulario"
+          [(ngModel)]="datosRegistro.direccion" placeholder="Digite su dirección"></ion-input>
+      </ion-item>
+      <div>
+        <ng-container *ngFor="let validation of mensajesValidacion.direccion">
+          <div class="mensajesError"
+            *ngIf="validador.get('direccion').hasError(validation.type) && (validador.get('direccion').dirty || validador.get('direccion').touched)">
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+      <ion-item>
+        <ion-label class="inputsFormulario" position="floating">Teléfono</ion-label>
+        <ion-input name="telefono" formControlName="telefono" class="inputsFormulario"
+          [(ngModel)]="datosRegistro.telefono" placeholder="Digite su teléfono"></ion-input>
+      </ion-item>
+      <div>
+        <ng-container *ngFor="let validation of mensajesValidacion.telefono">
+          <div class="mensajesError"
+            *ngIf="validador.get('telefono').hasError(validation.type) && (validador.get('telefono').dirty || validador.get('telefono').touched)">
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+      <ion-item>
+        <ion-label class="inputsFormulario" position="floating">Contraseña</ion-label>
+        <ion-input name="password" formControlName="password" class="inputsFormulario"
+          [(ngModel)]="datosRegistro.password" placeholder="Digite su contraseña"></ion-input>
+      </ion-item>
+      <div>
+        <ng-container *ngFor="let validation of mensajesValidacion.password">
+          <div class="mensajesError"
+            *ngIf="validador.get('password').hasError(validation.type) && (validador.get('password').dirty || validador.get('password').touched)">
+            {{validation.message}}
+          </div>
+        </ng-container>
+      </div>
+
+      <ion-button class="boton_guarda_cambios" type="submit" fill="solid" expand="full" [disabled]="!validador.valid">Guardar Cambios</ion-button>
+
+    </form>
+  </div>
+
+</ion-content>
+<ion-footer>
+
+  
+
+</ion-footer>

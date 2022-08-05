@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content>
+
   <div class="divContenedorPanico">
     <ion-card>
       <ion-img class="logoCSI" src="assets/logo_csi_1.png"></ion-img>
@@ -13,20 +14,33 @@
     <p class="activandoText" class="texto_apoyo1">
       <b>BOTÓN DE PÁNICO ACTIVADO</b>
     </p>
-    <p class="ion-padding" class="texto_apoyo1">LA ALERTA HA SIDO ENVIADA, SI TE ES POSIBLE DEBES TENER TUS TELÉFONOS A LA MANO, EN CASO DE QUE SEA UN ROBO DE CELULAR, LLAMAREMOS A TUS CONTACTOS DE EMERGENCIA</p>
-    <div class="divContenedorBoton">
+
+
+    <div class="pastillaConfirmacion ion-margin animate__animated animate__fadeIn">
+      <p class="ion-padding" class="texto_apoyo2">
+        La alerta ha sido enviada, si te es posible ten tu teléfono a la mano, te contactaremos enseguida.
+        Ubicate en un lugar seguro, printo CSI estará contigo.
+        </p>
+    </div>
+
+
+
+
+
+    <div class="divContenedorBoton animate__animated animate__shakeX">
       <div style="text-align:center">
         <span class="botonConfirmacion">
-          
-            <!--  
+
+          <!--  
             <ion-button class="powePanico">
               <ion-icon name="power-outline"></ion-icon>
             </ion-button> -->
 
-            <ion-button shape="circle" [routerLink]="['/panico']">
-              <ion-icon class="poweConfirmacion"  routerLinkActive="router-link-active"  slot="icon-only" name="checkmark-circle-outline"></ion-icon>
-            </ion-button>
-          
+          <ion-button shape="circle" [routerLink]="['/panico']">
+            <ion-icon class="poweConfirmacion" routerLinkActive="router-link-active" slot="icon-only"
+              name="checkmark-circle-outline"></ion-icon>
+          </ion-button>
+
         </span>
       </div>
     </div>
@@ -34,14 +48,20 @@
     <p class="activandoText" class="texto_apoyo1">
       <b>ATENCIÓN</b>
     </p>
-    <p class="ion-padding" class="texto_apoyo1">Una falsa alarma nos pone en riesgo a todos, utiliza el botón de pánico única y exclusivamente cuando estés en una situación de riesgo inminente</p>
-    
+
+    <div class="pastillaConfirmacion ion-margin animate__animated animate__fadeIn">
+      <p class="texto_apoyo3">
+        Una falsa alarma nos pone en riesgo a todos, utiliza el botón de pánico
+        única y exclusivamente cuando estés en una situación de riesgo inminente        </p>
+    </div>
+  
 
 
   </div>
 </ion-content>
 <ion-footer>
-  <ion-button class="ion-padding" shape="round" routerLink="/panico" expand="full" class="continuar" fill="clear" shape="round">
+  <ion-button class="ion-padding" shape="round" routerLink="/panico" expand="full" class="continuar" fill="clear"
+    shape="round">
     CONTINUAR
   </ion-button>
 </ion-footer>

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'app-submenu1',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Submenu1Page implements OnInit {
 
-  constructor() { }
+  constructor(private storage:Storage, private navCtrl:NavController) { }
 
   ngOnInit() {
+  }
+
+  logout(){
+    this.storage.clear();
+    this.navCtrl.navigateRoot('/login', {animated:true});
   }
 
 }

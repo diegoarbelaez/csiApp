@@ -1,12 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { NavController } from '@ionic/angular';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
+import { UsuarioService } from 'src/app/services/usuario.service';
+import { CAPACITOR_CONFIG_JSON_FILE } from '@ionic/cli/lib/integrations/capacitor/config';
 
 const circleR = 80;
 const circleDasharray = 2 * Math.PI * circleR;
+
+
 
 
 
@@ -26,6 +30,10 @@ export class TimerPage implements OnInit {
 
   valorProgress;
 
+  nombreEventos;
+
+
+
   //Variables de eventos
   evento1: boolean = false; //Accidente de tránsito
   evento2: boolean = false; //Atraco 
@@ -33,6 +41,16 @@ export class TimerPage implements OnInit {
   evento4: boolean = false; //Persona Sospechosa
   evento5: boolean = false; //Animal Perdido
   evento6: boolean = false; //Persona Siguiendome
+
+  //Nombres de eventos
+  nombreEvento1 = 'Accidente de';
+  nombreEvento2 = '';
+  nombreEvento3 = '';
+  nombreEvento4 = '';
+  nombreEvento5 = '';
+  nombreEvento6 = '';
+  
+  eventos:Observable<any>;
 
 
   startDuration = 1;
@@ -46,7 +64,7 @@ export class TimerPage implements OnInit {
   tipo_evento;
 
 
-  constructor(private navCtrl: NavController, private geolocation: Geolocation, private http: HttpClient, private storage: Storage) {
+  constructor(private navCtrl: NavController, private geolocation: Geolocation, private http: HttpClient, private storage: Storage, private service:UsuarioService) {
     this.cargarIdUsuario();
   }
 
@@ -111,7 +129,7 @@ export class TimerPage implements OnInit {
       }
       console.log(data);
 
-      const URL: string = `http://localhost/CSI/php-auth-api/api/alerta.php`;
+      const URL: string = `https://csi.mipgenlinea.com/api/api/alerta.php`;
 
       return new Promise(resolve => {
         this.http.post(URL, data)
@@ -223,6 +241,21 @@ export class TimerPage implements OnInit {
 
   ngOnInit() {
     this.startTimer(this.startDuration);
+    this.cargarNombreServicios();
   }
+
+  async cargarNombreServicios(){
+     this.nombreEventos = await this.service.getNombreAlertas();
+     console.log(this.nombreEventos);
+     this.nombreEvento1=this.nombreEventos[0]["descripcion"];
+     this.nombreEvento2=this.nombreEventos[1]["descripcion"];
+     this.nombreEvento3=this.nombreEventos[2]["descripcion"];
+     this.nombreEvento4=this.nombreEventos[3]["descripcion"];
+     this.nombreEvento5=this.nombreEventos[4]["descripcion"];
+     this.nombreEvento6=this.nombreEventos[5]["descripcion"];
+
+     
+  }
+
 
 }

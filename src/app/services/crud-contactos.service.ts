@@ -8,36 +8,58 @@ export class CrudContactosService {
   
   
   token: string = null;
-  id_usuario: string = null;
+  id_usuario;
+  id_usuario_temp;
   private _storage: Storage | null = null;
 
   
 
   constructor(private http: HttpClient, private storage: Storage) {
-    this.cargarIdUsuario();
+    //this.cargarIdUsuario();
+    //console.log("crud::creado constructor crudContactos");
+    //console.log("crud::id_usuario"+this.id_usuario);
+  }
+
+  getContactos(){
+    this.id_usuario_temp = this.cargarIdUsuario2();
+    console.log(this.id_usuario_temp);
+    console.log("crudContactos::getContactos: "+"https://csi.mipgenlinea.com/api/api/listarContactos.php?id_usuario=`"+this.id_usuario_temp);
+    return this.http.get(`https://csi.mipgenlinea.com/api/api/listarContactos.php?id_usuario=`+this.id_usuario_temp);
+  }
+
+  getContactos3(number){
+    console.log("crudContactos::getContactos3: "+"https://csi.mipgenlinea.com/api/api/listarContactos.php?id_usuario=`"+number);
+    return this.http.get(`https://csi.mipgenlinea.com/api/api/listarContactos.php?id_usuario=`+number);
   }
 
 
-  
-  /*getContactos() {
-    console.log("getContactos");
-    this.cargarToken();
-    console.log("getContactos"+this.token);
-    const data = { id_usuario: this.id_usuario }
-    const headers = new HttpHeaders({
-      Authorization: 'Bearer ' + this.token
-    });
-    return this.http.post(`http://localhost/CSI/php-auth-api/api/listarContactosSin.php`, data, { headers })
-  }*/
+  //Get Contactos POST con data en json enviado
+  getContactos2() {
 
-  getContactos(){
-    const data = { id_usuario: this.id_usuario }
-    return this.http.get(`http://localhost/CSI/php-auth-api/api/listarContactosSin.php`);
+    const data = {  id_usuario:this.id_usuario }
+
+    const URL: string = `https://csi.mipgenlinea.com/api/api/listarContactosSin.php`;
+
+    return new Promise(resolve => {
+      this.http.post(URL, data)
+        .subscribe(async resp => {
+          console.log("Respuesta Servidor " + resp['message']);
+          if (resp['actualizado']) {
+            console.log('Actualiado Exitosamente');
+            resolve(true);
+          } else {
+            console.log('No actualizado!');
+            console.log(resp['sql']);
+            resolve(false);
+          }
+        });
+    });
+
   }
 
   eliminarContacto(id_contacto: string) {
     const data = { id_contacto: id_contacto }
-    const URL: string = `http://localhost/CSI/php-auth-api/api/eliminarContacto.php`;
+    const URL: string = `https://csi.mipgenlinea.com/api/api/eliminarContacto.php`;
     return new Promise(resolve => {
       this.http.post(URL, data)
         .subscribe(async resp => {
@@ -57,17 +79,19 @@ export class CrudContactosService {
     });
   }
 
-  crearContacto(nombreContacto: string, telefonoContacto: string, descripcionContacto: string) {
+  crearContacto(nombreContacto: string, telefonoContacto: string, descripcionContacto: string, id_usuario:string) {
+    
+    
     const data = {
       nombreContacto: nombreContacto,
       telefonoContacto: telefonoContacto,
       descripcionContacto: descripcionContacto,
-      fk_id_usuario: this.id_usuario
+      fk_id_usuario: id_usuario
     }
 
     console.log("Datos a Crear...");
     console.log(data);
-    const URL: string = `http://localhost/CSI/php-auth-api/api/crearContacto.php`;
+    const URL: string = `https://csi.mipgenlinea.com/api/api/crearContacto.php`;
     
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + this.token
@@ -90,12 +114,41 @@ export class CrudContactosService {
     });
   }
 
-  async cargarIdUsuario() {
-    const storage = await this.storage.create();
-    this._storage = storage;
-    this.id_usuario = await this._storage.get('id_usuario');
-    console.log("cargarUsuario - fk_id_usuario 1..." + this.id_usuario);
+  actualizar(correo: string, cedula: string, nombres: string, apellidos: string, direccion: string, telefono: string, password: string, idUsuario:string) {
+     
+    const data = { correo: correo, cedula: cedula, nombres: nombres, apellidos: apellidos, direccion: direccion, telefono: telefono, password: password, id_usuario:idUsuario }
+
+    const URL: string = `https://csi.mipgenlinea.com/api/api/ActualizarUsuario.php`;
+
+
+
+    return new Promise(resolve => {
+      this.http.post(URL, data)
+        .subscribe(async resp => {
+          console.log("Respuesta Servidor " + resp['message']);
+          if (resp['actualizado']) {
+            console.log('Actualiado Exitosamente');
+            resolve(true);
+          } else {
+            console.log('No actualizado!');
+            console.log(resp['sql']);
+            resolve(false);
+          }
+        });
+    });
+
   }
+
+  async cargarIdUsuario() {
+    this.storage.create();
+    this.id_usuario = await this.storage.get('id_usuario');
+    console.log("curd::cargarIdUsuario id_usuario" + this.id_usuario);
+  }
+
+  cargarIdUsuario2(){ 
+    return this.storage.get('id_usuario');
+  }
+
 
   
 

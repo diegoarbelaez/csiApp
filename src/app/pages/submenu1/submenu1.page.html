@@ -17,11 +17,11 @@
     </ion-item>
     <ion-item>
       <ion-icon color="secondary" slot="start" name="create-outline"></ion-icon>
-      <ion-label color="light" routerLink="/panico" >Editar mi Perfil</ion-label>
+      <ion-label color="light" routerLink="/editarperfil" >Editar mi Perfil</ion-label>
     </ion-item>
     <ion-item>
       <ion-icon color="secondary" slot="start" name="log-out-outline"></ion-icon>
-      <ion-label color="light" routerLink="/panico" >Cerrar Sesión</ion-label>
+      <ion-label color="light" (click)='logout()' >Cerrar Sesión</ion-label>
     </ion-item>
   </ion-list>
 

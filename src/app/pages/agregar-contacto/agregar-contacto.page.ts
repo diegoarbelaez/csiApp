@@ -14,10 +14,12 @@ export class AgregarContactoPage implements OnInit {
 
   validador: FormGroup;
 
+  id_usuario;
+
   datos = {
     nombreContacto : 'Angélica Ceballos',
     telefonoContacto : '3174337569',
-    descripcionContacto: 'Mi Amor'
+    descripcionContacto: 'Mi Amor',
   }
 
 
@@ -46,8 +48,8 @@ export class AgregarContactoPage implements OnInit {
     // console.log("Password:" + credenciales.password);
 
     //Llama el Servicio y envía el Usuario y Password
-    
-    const valido = await this.crudContactos.crearContacto(datos.nombreContacto,datos.telefonoContacto,datos.descripcionContacto);
+    await this.cargarIdUsuario();
+    const valido = await this.crudContactos.crearContacto(datos.nombreContacto,datos.telefonoContacto,datos.descripcionContacto, this.id_usuario);
 
     if(valido){
       //Pagina que se muestra cuando el login es OK
@@ -83,5 +85,9 @@ export class AgregarContactoPage implements OnInit {
 
 
 
+  }
+
+  async cargarIdUsuario(){
+    this.id_usuario = await this.crudContactos.cargarIdUsuario2(); 
   }
 }

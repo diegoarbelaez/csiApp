@@ -25,6 +25,8 @@
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
 
+/* Animate CSS*/
+@import "~animate.css/animate.css";
 
 /* Estilos para el Login */
 
@@ -130,14 +132,20 @@ ion-card-title {
 }
 
 .contenedorIniciarSesion {
-    margin-left: 20px;
-    margin-right: 20px;
-    margin-top: 10px;
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
 
     .btn-iniciarSesion {
         --ion-color-primary: #0079FB;
         color: #ffffff
     }
+}
+
+.inputInicioSesion{
+    width:100%;
 }
 
 .registrate {
@@ -221,6 +229,7 @@ ion-card-title {
 }
 
 .chatPanico {
+    color:#243f5c;
     width: 250px;
     margin-top: 40px;
     padding: 10px;
@@ -351,4 +360,41 @@ ion-card-title {
     background-color: rgb(29, 162, 39);
 
 }
+
+.fondoInformacion{
+    font-size: 10px;
+    color: #ffffff;
+    background-color: #34728f !important;
+}
+
+.texto_apoyo2{
+    text-align: center;
+    padding: 9px;
+    color: #ffffff;
+}
+
+.texto_apoyo3{
+    font-size: 10px;
+    text-align: center;
+    padding: 9px;
+    color: #ffffff;
+}
+
+.pastillaConfirmacion{
+    color: #ffffff;
+    background-color: #064461;
+    border-radius: 10px;
+}
+
+/* Editar Perfil */
+
+.formularioActualizar{
+    margin-top: 70px;
+}
+.boton_guarda_cambios{
+    margin-top: 40px;
+}
+
+
+
 

@@ -16,8 +16,10 @@ export class IniciosesionPage implements OnInit {
   //esto es para no tener que ingresar usuario y contraseña mientras estemos en pruebas
   //creamos un objeto para guardar los valores default y luego con ngModel los dejamos como default
   credenciales = {
-    correo : "diegoarbelaez.co@gmail.com",
-    password : "Juryzu57"
+    correo : "",
+    password : ""
+    //correo : "diegoarbelaez.co@gmail.com",
+    //password : "Juryzu57"
   }
 
   mensajesValidacion = {
