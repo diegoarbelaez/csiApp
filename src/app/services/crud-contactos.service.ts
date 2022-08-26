@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
+import { environment } from 'src/environments/environment';
+
+
+const urlService = environment.urlServices;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,13 +28,13 @@ export class CrudContactosService {
   getContactos(){
     this.id_usuario_temp = this.cargarIdUsuario2();
     console.log(this.id_usuario_temp);
-    console.log("crudContactos::getContactos: "+"https://csi.mipgenlinea.com/api/api/listarContactos.php?id_usuario=`"+this.id_usuario_temp);
-    return this.http.get(`https://csi.mipgenlinea.com/api/api/listarContactos.php?id_usuario=`+this.id_usuario_temp);
+    console.log("crudContactos::getContactos: "+urlService+'listarContactos.php?id_usuario="'+this.id_usuario_temp);
+    return this.http.get(urlService+'listarContactos.php?id_usuario='+this.id_usuario_temp);
   }
 
   getContactos3(number){
-    console.log("crudContactos::getContactos3: "+"https://csi.mipgenlinea.com/api/api/listarContactos.php?id_usuario=`"+number);
-    return this.http.get(`https://csi.mipgenlinea.com/api/api/listarContactos.php?id_usuario=`+number);
+    console.log("crudContactos::getContactos3: "+urlService+'listarContactos.php?id_usuario='+number);
+    return this.http.get(urlService+'listarContactos.php?id_usuario='+number);
   }
 
 
@@ -38,7 +43,7 @@ export class CrudContactosService {
 
     const data = {  id_usuario:this.id_usuario }
 
-    const URL: string = `https://csi.mipgenlinea.com/api/api/listarContactosSin.php`;
+    const URL: string = urlService+'listarContactosSin.php';
 
     return new Promise(resolve => {
       this.http.post(URL, data)
@@ -58,12 +63,15 @@ export class CrudContactosService {
   }
 
   eliminarContacto(id_contacto: string) {
+    console.log("Accion Eliminar Contactos");
     const data = { id_contacto: id_contacto }
-    const URL: string = `https://csi.mipgenlinea.com/api/api/eliminarContacto.php`;
+    const URL: string = urlService+'eliminarContacto.php';
     return new Promise(resolve => {
       this.http.post(URL, data)
-        .subscribe(async resp => {
+        .subscribe(resp => {
           //Agregar funciones para hacer cosas aquí, dependiendo del mensaje de respuesta del servidor
+          console.log("Servidor Respondió"+resp);
+
           /* if (resp['logeado']) {
              await this.guardarToken(resp['token'],resp['id_usuario']);
              console.log('Credenciales Correctas!');
@@ -91,7 +99,7 @@ export class CrudContactosService {
 
     console.log("Datos a Crear...");
     console.log(data);
-    const URL: string = `https://csi.mipgenlinea.com/api/api/crearContacto.php`;
+    const URL: string = urlService+'crearContacto.php';
     
     const headers = new HttpHeaders({
       Authorization: 'Bearer ' + this.token
@@ -118,7 +126,7 @@ export class CrudContactosService {
      
     const data = { correo: correo, cedula: cedula, nombres: nombres, apellidos: apellidos, direccion: direccion, telefono: telefono, password: password, id_usuario:idUsuario }
 
-    const URL: string = `https://csi.mipgenlinea.com/api/api/ActualizarUsuario.php`;
+    const URL: string = urlService+'ActualizarUsuario.php';
 
 
 

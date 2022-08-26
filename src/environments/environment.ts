@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  //urlServices: 'http://localhost/CSI/php-auth-api/api/'
+  urlServices: 'https://csi.mipgenlinea.com/api/api/'
+  //urlServices: 'http://172.30.228.78/CSI/php-auth-api/api/'
 };
 
 /*

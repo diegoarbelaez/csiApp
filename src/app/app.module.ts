@@ -19,12 +19,16 @@ import { HttpClientModule } from '@angular/common/http';
 //GPS
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 
+//Camara
+import { Camera } from '@awesome-cordova-plugins/camera/ngx';
+
+
 
 
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,IonicStorageModule.forRoot(),ReactiveFormsModule, FormsModule, HttpClientModule],
-  providers: [Geolocation, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [Geolocation, Camera, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
   
 })

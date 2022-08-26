@@ -3,6 +3,10 @@ import { HttpClient } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { Storage } from '@ionic/storage-angular';
 import { NavController } from '@ionic/angular';
+import { environment } from 'src/environments/environment';
+
+
+const urlService = environment.urlServices;
 
 //Usado para el nombre de los servicios en el get
 export interface eventos {
@@ -32,7 +36,7 @@ export class UsuarioService {
 
     const data = { correo: correo, password: password }
 
-    const URL: string = `https://csi.mipgenlinea.com/api/api/login.php`;
+    const URL: string = urlService+'login.php';
 
     return new Promise(resolve => {
       this.http.post(URL, data)
@@ -60,7 +64,7 @@ export class UsuarioService {
 
     const data = { correo: correo, cedula: cedula, nombres: nombres, apellidos: apellidos, direccion: direccion, telefono: telefono, password: password }
 
-    const URL: string = `https://csi.mipgenlinea.com/api/api/register.php`;
+    const URL: string = urlService+'register.php';
 
     return new Promise(resolve => {
       this.http.post(URL, data)
@@ -84,7 +88,7 @@ export class UsuarioService {
   cargar(id_usuario: string) {
     const data = { id_usuario: id_usuario }
 
-    const URL: string = `https://csi.mipgenlinea.com/api/api/cargarUsuario.php`;
+    const URL: string = urlService+'cargarUsuario.php';
 
     return new Promise(resolve => {
       this.http.post(URL, data)
@@ -124,7 +128,7 @@ export class UsuarioService {
   }
 
   getNombreAlertas(){
-     return this.http.get(`https://csi.mipgenlinea.com/api/api/listarNombreEventos.php`).toPromise();
+     return this.http.get(urlService+'listarNombreEventos.php').toPromise();
    }
 
   

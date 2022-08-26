@@ -6,9 +6,20 @@ import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { CAPACITOR_CONFIG_JSON_FILE } from '@ionic/cli/lib/integrations/capacitor/config';
+import { environment } from 'src/environments/environment';
+import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 const circleR = 80;
 const circleDasharray = 2 * Math.PI * circleR;
+
+const urlService = environment.urlServices;
+
+//declare var window:any;
+
+
+
 
 
 
@@ -21,6 +32,8 @@ const circleDasharray = 2 * Math.PI * circleR;
 })
 export class TimerPage implements OnInit {
 
+  securepath:any = window;
+
   time: BehaviorSubject<string> = new BehaviorSubject('00:00');
   percent: BehaviorSubject<number> = new BehaviorSubject(100);
 
@@ -31,6 +44,8 @@ export class TimerPage implements OnInit {
   valorProgress;
 
   nombreEventos;
+
+  
 
 
 
@@ -62,9 +77,13 @@ export class TimerPage implements OnInit {
   logintudCapturada;
   id_usuario;
   tipo_evento;
+  
+  imagen;
+
+  
 
 
-  constructor(private navCtrl: NavController, private geolocation: Geolocation, private http: HttpClient, private storage: Storage, private service:UsuarioService) {
+  constructor(private navCtrl: NavController, private geolocation: Geolocation, private http: HttpClient, private storage: Storage, private service:UsuarioService, private camera:Camera, private domsantizer:DomSanitizer ) {
     this.cargarIdUsuario();
   }
 
@@ -129,7 +148,7 @@ export class TimerPage implements OnInit {
       }
       console.log(data);
 
-      const URL: string = `https://csi.mipgenlinea.com/api/api/alerta.php`;
+      const URL: string = urlService+'alerta.php';
 
       return new Promise(resolve => {
         this.http.post(URL, data)
@@ -255,6 +274,45 @@ export class TimerPage implements OnInit {
      this.nombreEvento6=this.nombreEventos[5]["descripcion"];
 
      
+  }
+
+  cargarImagen(){
+    console.log("Carga imagen iniciada");
+    clearInterval(this.interval);
+    this.time.next('00:00');
+    this.state = 'stop';
+
+    //CARGA DE LA CAMARA
+
+    const options: CameraOptions = {
+      quality: 60,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true,
+      sourceType: this.camera.PictureSourceType.CAMERA
+    }
+    
+    this.camera.getPicture(options).then((imageData) => {
+     // imageData is either a base64 encoded string or a file URI
+     // If it's base64 (DATA_URL):
+    
+      //const imagen = window.Ionic.WebView.converFileSrc(imageData); //Convertimos la imagen a variable para usarla luego
+
+      this.imagen = this.securepath.Ionic.WebView.converFileSrc(imageData);
+
+      
+     //let base64Image = 'data:image/jpeg;base64,' + imageData; //Esto es por si quiero manejar la imagen dentro del App
+    }, (err) => {
+     // Handle error
+    });
+
+
+
+  }
+
+  santizerImage(img){
+    return this.domsantizer.bypassSecurityTrustUrl(img);
   }
 
 

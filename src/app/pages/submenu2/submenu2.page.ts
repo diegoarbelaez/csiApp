@@ -58,7 +58,10 @@ export class Submenu2Page implements OnInit {
   eliminarContacto(event) {
     this.crud.eliminarContacto(event["id_contacto"]);
     this.listado.closeSlidingItems();
-    this.contactos = this.crud.getContactos3(this.id_usuario);
+    //Vuelve a recuperar los contactos
+    //this.contactos = this.crud.getContactos3(this.id_usuario);
+    //Vuel
+    this.cargarIdUsuario();
   }
   /*agregarContacto() {
 

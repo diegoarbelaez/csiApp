@@ -6,9 +6,12 @@ import { HerramientasUIService } from '../../services/herramientas-ui.service';
 import { Storage } from '@ionic/storage';
 import { CrudContactosService } from 'src/app/services/crud-contactos.service';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 
 
+
+const urlService = environment.urlServices;
 
 
 
@@ -143,7 +146,7 @@ export class EditarperfilPage implements OnInit {
     this.id_usuario = await this.crudContactosService.cargarIdUsuario2();
     console.log("Editar Perfil:"+this.id_usuario);
     const data = { id_usuario:this.id_usuario }
-    const URL: string = `https://csi.mipgenlinea.com/api/api/cargarUsuario.php`;
+    const URL: string = urlService+'cargarUsuario.php';
     return new Promise(resolve => {
       this.http.post(URL, data)
         .subscribe(async resp => {
