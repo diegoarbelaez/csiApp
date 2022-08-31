@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { NavController } from '@ionic/angular';
+import { NavController, LoadingController } from '@ionic/angular';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { HerramientasUIService } from '../../services/herramientas-ui.service';
 import { Storage } from '@ionic/storage';
@@ -86,7 +86,7 @@ export class EditarperfilPage implements OnInit {
     ]
   }
 
-  constructor(public formbuider: FormBuilder, public servicios: UsuarioService, public navCtrl: NavController, public herramientasUI: HerramientasUIService, private storage:Storage, private crudContactosService: CrudContactosService, private http:HttpClient) {
+  constructor(public formbuider: FormBuilder, public servicios: UsuarioService, public navCtrl: NavController, public herramientasUI: HerramientasUIService, private storage:Storage, private crudContactosService: CrudContactosService, private http:HttpClient, private loadingCtrl:LoadingController) {
     this.cargarIdUsuario();
    }
 
@@ -143,6 +143,13 @@ export class EditarperfilPage implements OnInit {
 
 
   async cargarIdUsuario(){ 
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando...',
+    });
+    await loading.present();
+
+
     this.id_usuario = await this.crudContactosService.cargarIdUsuario2();
     console.log("Editar Perfil:"+this.id_usuario);
     const data = { id_usuario:this.id_usuario }
@@ -163,6 +170,7 @@ export class EditarperfilPage implements OnInit {
             console.log("editarPerfil:cargarIdUsuario -> id_usuario asignado: "+this.id_usuario);
             console.log("editarPerfil:cargarIdUsuario -> datosRegistro.id_usuario asignado: "+this.datosRegistro.id_usuario);
             resolve(true);
+            this.loadingCtrl.dismiss();
                     
         });
     });

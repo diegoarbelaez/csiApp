@@ -1,14 +1,19 @@
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { Geolocation } from '@awesome-cordova-plugins/geolocation/ngx';
 import { HttpClient } from '@angular/common/http';
 import { Storage } from '@ionic/storage';
 import { UsuarioService } from 'src/app/services/usuario.service';
 import { CAPACITOR_CONFIG_JSON_FILE } from '@ionic/cli/lib/integrations/capacitor/config';
 import { environment } from 'src/environments/environment';
-import { Camera, CameraOptions } from '@awesome-cordova-plugins/camera/ngx';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import { Platform, LoadingController } from '@ionic/angular';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { finalize } from 'rxjs/operators';
+
+
+
 
 
 const circleR = 80;
@@ -16,8 +21,17 @@ const circleDasharray = 2 * Math.PI * circleR;
 
 const urlService = environment.urlServices;
 
-//declare var window:any;
 
+
+
+//Directorio de almacenamiento local
+//Interfaz para manejo de imagenes
+const IMAGE_DIR = 'stored-images';
+interface LocalFile {
+  name: string;
+  path: string;
+  data: string;
+}
 
 
 
@@ -32,7 +46,15 @@ const urlService = environment.urlServices;
 })
 export class TimerPage implements OnInit {
 
-  securepath:any = window;
+
+  securepath: any = window;
+  images: LocalFile[] = [];
+
+  imagen_evento: LocalFile;
+
+  imagenAdjunta: boolean = false;
+
+  mostrarTimer: boolean = true;
 
   time: BehaviorSubject<string> = new BehaviorSubject('00:00');
   percent: BehaviorSubject<number> = new BehaviorSubject(100);
@@ -45,7 +67,7 @@ export class TimerPage implements OnInit {
 
   nombreEventos;
 
-  
+
 
 
 
@@ -64,8 +86,8 @@ export class TimerPage implements OnInit {
   nombreEvento4 = '';
   nombreEvento5 = '';
   nombreEvento6 = '';
-  
-  eventos:Observable<any>;
+
+  eventos: Observable<any>;
 
 
   startDuration = 1;
@@ -77,13 +99,14 @@ export class TimerPage implements OnInit {
   logintudCapturada;
   id_usuario;
   tipo_evento;
-  
+  comentario;
+
   imagen;
 
-  
 
 
-  constructor(private navCtrl: NavController, private geolocation: Geolocation, private http: HttpClient, private storage: Storage, private service:UsuarioService, private camera:Camera, private domsantizer:DomSanitizer ) {
+
+  constructor(private navCtrl: NavController, private geolocation: Geolocation, private http: HttpClient, private storage: Storage, private service: UsuarioService, private platform: Platform, private loadingCtrl: LoadingController, private toastCtrl: ToastController) {
     this.cargarIdUsuario();
   }
 
@@ -115,7 +138,7 @@ export class TimerPage implements OnInit {
     const percentage = ((totalTime - this.timer) / totalTime) * 100;
     this.percent.next(percentage);
     console.log(percentage);
-    this.valorProgress = percentage/100;
+    this.valorProgress = percentage / 100;
 
     --this.timer
 
@@ -129,8 +152,13 @@ export class TimerPage implements OnInit {
 
   }
 
-  lanzarAlerta() {
+  async lanzarAlerta() {
     console.log("Enviando Alerta...");
+    const loading_alerta = await this.loadingCtrl.create({
+      message: 'Enviando alerta...',
+    });
+    await loading_alerta.present();
+    
     //Aquí está el código para enviar las coordenadas y lo que se obtenga de los eventos
     this.geolocation.getCurrentPosition().then((resp) => {
       // resp.coords.latitude
@@ -144,11 +172,12 @@ export class TimerPage implements OnInit {
         tipo_evento: this.tipo_evento,
         latitud: this.latitudCapturada,
         longitud: this.logintudCapturada,
-        id_usuario: this.id_usuario
+        id_usuario: this.id_usuario,
+        comentario: this.comentario
       }
       console.log(data);
 
-      const URL: string = urlService+'alerta.php';
+      const URL: string = urlService + 'alerta.php';
 
       return new Promise(resolve => {
         this.http.post(URL, data)
@@ -156,6 +185,11 @@ export class TimerPage implements OnInit {
             console.log("Respuesta Servidor " + resp['confirmacion'] + resp['sql']);
             if (resp['confirmacion'] == 'alertarecibida') {
               console.log("recibió la alerta bien");
+              //Enviar la imagen adjunta
+              loading_alerta.dismiss();
+              if (this.imagenAdjunta) {
+                this.startUpload(this.images[0]);
+              }
               resolve(true);
             } else {
               console.log("Error en el servidor" + resp["confirmacion"]);
@@ -170,7 +204,10 @@ export class TimerPage implements OnInit {
     });
 
 
-    //trael el id del usuario
+
+
+
+
 
 
 
@@ -263,57 +300,279 @@ export class TimerPage implements OnInit {
     this.cargarNombreServicios();
   }
 
-  async cargarNombreServicios(){
-     this.nombreEventos = await this.service.getNombreAlertas();
-     console.log(this.nombreEventos);
-     this.nombreEvento1=this.nombreEventos[0]["descripcion"];
-     this.nombreEvento2=this.nombreEventos[1]["descripcion"];
-     this.nombreEvento3=this.nombreEventos[2]["descripcion"];
-     this.nombreEvento4=this.nombreEventos[3]["descripcion"];
-     this.nombreEvento5=this.nombreEventos[4]["descripcion"];
-     this.nombreEvento6=this.nombreEventos[5]["descripcion"];
+  async cargarNombreServicios() {
+    this.nombreEventos = await this.service.getNombreAlertas();
+    console.log(this.nombreEventos);
+    this.nombreEvento1 = this.nombreEventos[0]["descripcion"];
+    this.nombreEvento2 = this.nombreEventos[1]["descripcion"];
+    this.nombreEvento3 = this.nombreEventos[2]["descripcion"];
+    this.nombreEvento4 = this.nombreEventos[3]["descripcion"];
+    this.nombreEvento5 = this.nombreEventos[4]["descripcion"];
+    this.nombreEvento6 = this.nombreEventos[5]["descripcion"];
 
-     
+
   }
 
-  cargarImagen(){
-    console.log("Carga imagen iniciada");
-    clearInterval(this.interval);
-    this.time.next('00:00');
-    this.state = 'stop';
 
-    //CARGA DE LA CAMARA
 
-    const options: CameraOptions = {
+  //Metodos para cargar imagenes
+
+
+  async cargarImagenGaleria() {
+    const image = await Camera.getPhoto({
       quality: 60,
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-      correctOrientation: true,
-      sourceType: this.camera.PictureSourceType.CAMERA
-    }
-    
-    this.camera.getPicture(options).then((imageData) => {
-     // imageData is either a base64 encoded string or a file URI
-     // If it's base64 (DATA_URL):
-    
-      //const imagen = window.Ionic.WebView.converFileSrc(imageData); //Convertimos la imagen a variable para usarla luego
-
-      this.imagen = this.securepath.Ionic.WebView.converFileSrc(imageData);
-
-      
-     //let base64Image = 'data:image/jpeg;base64,' + imageData; //Esto es por si quiero manejar la imagen dentro del App
-    }, (err) => {
-     // Handle error
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Photos // Camera, Photos or Prompt!
     });
 
+    console.log(image);
 
+    if (image) {
+      this.saveImage(image)
+    }
 
   }
 
-  santizerImage(img){
-    return this.domsantizer.bypassSecurityTrustUrl(img);
+  async cargarImagenFoto() {
+    const image = await Camera.getPhoto({
+      quality: 60,
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera // Camera, Photos or Prompt!
+    });
+
+    console.log(image);
+
+    if (image) {
+      this.saveImage(image)
+    }
+
   }
+
+
+
+  async saveImage(photo: Photo) {
+    const base64Data = await this.readAsBase64(photo);
+    console.log(base64Data);
+    const fileName = 'EVENTOCSI.jpeg';
+    const savedFile = await Filesystem.writeFile({
+      path: `${IMAGE_DIR}/${fileName}`,
+      data: base64Data,
+      directory: Directory.Data
+    });
+    console.log('saved: ' + savedFile);
+    this.loadFiles();
+  }
+
+  private async readAsBase64(photo: Photo) {
+    if (this.platform.is('hybrid')) {
+      const file = await Filesystem.readFile({
+        path: photo.path
+      });
+
+      return file.data;
+    }
+    else {
+      // Fetch the photo, read as a blob, then convert to base64 format
+      const response = await fetch(photo.webPath);
+      const blob = await response.blob();
+
+      return await this.convertBlobToBase64(blob) as string;
+    }
+  }
+
+  // Helper function
+  convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
+    const reader = new FileReader;
+    reader.onerror = reject;
+    reader.onload = () => {
+      resolve(reader.result);
+    };
+    reader.readAsDataURL(blob);
+  });
+
+
+
+  /* async cargarArchivoAlmacenado(){
+
+    this.imagen_evento = null;
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading data...',
+    });
+    await loading.present();
+
+    Filesystem.readdir({
+      path: IMAGE_DIR,
+      directory: Directory.Data,
+    }).then(result => {
+      this.loadFileData(result.files[0]);
+      // console.log("Archivos: " + JSON.stringify(result.files));
+      // console.log("Archivo Recuperado (abajo object)"+result.files[0]);
+      // console.log(result.files[0]);
+    },
+      async (err) => {
+        // Folder does not yet exists!
+        await Filesystem.mkdir({
+          path: IMAGE_DIR,
+          directory: Directory.Data,
+        });
+      }
+    ).then(_ => {
+      loading.dismiss();
+    });
+
+  }*/
+
+  async loadFiles() {
+    this.images = [];
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading data...',
+    });
+    await loading.present();
+
+    Filesystem.readdir({
+      path: IMAGE_DIR,
+      directory: Directory.Data,
+    }).then(result => {
+      this.loadFileData(result.files);
+      console.log("Archivos: " + JSON.stringify(result.files));
+      //console.log(result.files[0].uri);
+      console.log(result.files);
+    },
+      async (err) => {
+        // Folder does not yet exists!
+        await Filesystem.mkdir({
+          path: IMAGE_DIR,
+          directory: Directory.Data,
+        });
+      }
+    ).then(_ => {
+      loading.dismiss();
+    });
+
+  }
+
+  async loadFileData(fileNames: any[]) {
+    for (let f of fileNames) {
+      const filePath = `${IMAGE_DIR}/${f.name}`;
+
+      console.log("Ruta Archivo: " + filePath);
+
+      const readFile = await Filesystem.readFile({
+        path: filePath,
+        directory: Directory.Data,
+      });
+
+      this.images.push({
+        name: f,
+        path: filePath,
+        data: `data:image/jpeg;base64,${readFile.data}`,
+      });
+      console.log(readFile);
+    }
+    console.log("Vamos a ver Images (abajo)");
+    console.log(this.images);
+    this.imagenAdjunta = true;
+    this.stopTimer();
+    this.mostrarTimer = false;
+  }
+
+
+  /*  async loadFileData(nombreArchivo: any) {
+    
+        const filePath = `${IMAGE_DIR}/${nombreArchivo.name}`;
+        //const filePath = `${IMAGE_DIR}/EVENTOCSI.jpeg`;
+  
+        console.log("Ruta Archivo: " + filePath);
+  
+        const readFile = await Filesystem.readFile({
+          path: filePath,
+          directory: Directory.Data,
+        });
+  
+        //Guarda la imagen del evento
+        this.imagen_evento = {
+          name: nombreArchivo,
+          path: filePath,
+          data: `data:image/jpeg;base64,${readFile.data}`,
+        }
+  
+        console.log("Datos de imagen_evento");
+        console.log(this.imagen_evento);
+        console.log("Datos:");
+        console.log(this.imagen_evento.data);
+  
+        /*this.images.push({
+          name: f,
+          path: filePath,
+          data: `data:image/jpeg;base64,${readFile.data}`,
+        });
+       
+      
+    }*/
+
+
+
+  async startUpload(file: LocalFile) {
+    const response = await fetch(file.data);
+    console.log(response);
+    const blob = await response.blob();
+    const formData = new FormData();
+    //formData.append('file', blob, file.name);
+    //El nombre del archivo a cargar tiene el identificador del usuario
+    const nombreArchivo = this.id_usuario + '-' + new Date().getTime() + '.jpeg';
+    formData.append('file', blob, nombreArchivo);
+    this.uploadData(formData);
+    console.log(formData);
+  }
+
+
+  // Upload the formData to our API
+  async uploadData(formData: FormData) {
+    const loading = await this.loadingCtrl.create({
+      message: 'Enviando imagen...',
+    });
+    await loading.present();
+
+    // Use your own API!
+    //const url = 'http://localhost/ionic/camera/api/upload.php';
+    const url = urlService + 'upload.php'
+    console.log(url);
+    console.log(formData);
+
+
+    this.http.post(url, formData)
+      .pipe(
+        finalize(() => {
+          loading.dismiss();
+        })
+      )
+      .subscribe(res => {
+        if (res['success']) {
+          this.presentToast('Reporte Realizado');
+          this.navCtrl.navigateRoot('/confirmacion');
+          console.log('File upload complete.');
+        } else {
+          this.presentToast('Error reportando....')
+          console.log('File upload failed.');
+        }
+      });
+
+  }
+
+  // Little helper
+  async presentToast(text) {
+    const toast = await this.toastCtrl.create({
+      message: text,
+      duration: 3000,
+      position: 'top'
+    });
+    toast.present();
+  }
+
+
 
 
 }

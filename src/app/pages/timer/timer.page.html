@@ -5,10 +5,11 @@
       <p class="slogan">Seguridad al Instante</p>
     </ion-card>
     <p class="activandoText" class="texto_apoyo1">
-      <b>ACTIVANDO BOTÓN DE PÁNICO</b>
+      <b *ngIf="mostrarTimer">ACTIVANDO BOTÓN DE PÁNICO</b>
+      <b *ngIf="!mostrarTimer">REPORTAR ALERTA CON IMAGEN</b>
     </p>
     <ion-progress-bar value="{{valorProgress}}"></ion-progress-bar>
-    <div class="animate__animated animate__backInLeft">
+    <div *ngIf="mostrarTimer" class="animate__animated animate__backInLeft">
       <svg id="progress-circle" width="20vh" heigth="20vh" viewBox="0 0 200 200">
         <linearGradient id="linearColors1" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0%" stop-color="#A21D1D"></stop>
@@ -52,32 +53,42 @@
   <ion-grid>
     <ion-row>
       <ion-col size="6">
-        <ion-button (click)="cargarImagen()" fill="solid" shape="round" expand="full"
+        <ion-button (click)="cargarImagenGaleria()" fill="solid" shape="round" expand="full"
           class="btn-AceptarInformacion">
           <ion-icon class="ion-padding" name="images-outline"></ion-icon>Galeria
-          
         </ion-button>
       </ion-col>
       <ion-col size="6">
-        <ion-button (click)="cargarImagen()" fill="solid" shape="round" expand="full"
+        <ion-button (click)="cargarImagenFoto()" fill="solid" shape="round" expand="full"
           class="btn-AceptarInformacion">
-          <ion-icon class="ion-padding" name="camera-outline"></ion-icon>Tomar
+          <ion-icon class="ion-padding" name="camera-outline"></ion-icon>Foto
         </ion-button>
       </ion-col>
     </ion-row>
     <ion-row>
       <ion-col size="12">
-        <img [src]="santizerImage(imagen)">
-        item
+        <ion-item *ngFor="let file of images; let i = index">
+          <ion-img [src]="file.data"></ion-img>
+        </ion-item>
       </ion-col>
-      <img src="assets/logo_csi_1.png">
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-item *ngIf="imagenAdjunta">
+          <ion-label class="inputsFormulario" position="floating">Comentarios:</ion-label>
+          <ion-input [(ngModel)]="comentario" name="t-ext" class="inputsFormulario" type="text"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12">
+        <ion-button *ngIf="imagenAdjunta" (click)="lanzarAlerta()" fill="solid" shape="round" expand="full"
+          class="btn-AceptarInformacion">
+          <ion-icon class="ion-padding" name="images-outline"></ion-icon>ENVIAR
+        </ion-button>
+      </ion-col>
     </ion-row>
   </ion-grid>
-
-
-
-
-
 </ion-content>
 <ion-footer>
 

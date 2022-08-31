@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { IonList } from '@ionic/angular';
+import { IonList, LoadingController } from '@ionic/angular';
 import { Observable } from 'rxjs';
 import { CrudContactosService } from '../../services/crud-contactos.service';
 import { Storage } from '@ionic/storage-angular';
@@ -17,11 +17,11 @@ export class Submenu2Page implements OnInit {
   token: string = null;
   @ViewChild(IonList) listado: IonList;
 
-  constructor(private crud: CrudContactosService, private storage: Storage) {
+  constructor(private crud: CrudContactosService, private storage: Storage, private loadingCtrl: LoadingController) {
     //this.contactos = this.crud.getContactos();
     this.cargarIdUsuario();
     console.log("submenu2::OnInit, acaba de cargar id_usuario");
-    console.log("submenu2::OnInit, id_usuario="+this.id_usuario);
+    console.log("submenu2::OnInit, id_usuario=" + this.id_usuario);
     //this.contactos = this.crud.getContactos3(this.id_usuario);
     //console.log("submenu2::OnInit, acaba de llamar getContactos3");
   }
@@ -34,11 +34,23 @@ export class Submenu2Page implements OnInit {
     this.cargarIdUsuario();
   }
 
-  async cargarIdUsuario(){
+  async cargarIdUsuario() {
+
+    const loading = await this.loadingCtrl.create({
+      message: 'Cargando...',
+    });
+    await loading.present();
+
+
     this.id_usuario = await this.crud.cargarIdUsuario2();
-    console.log("submenu2::cargarIdUsuario -> id_usuario:"+this.id_usuario);
+    console.log("submenu2::cargarIdUsuario -> id_usuario:" + this.id_usuario);
     //cargamos de una vez el listado de usuarios
-    this.contactos = this.crud.getContactos3(this.id_usuario);
+
+
+    this.contactos = await this.crud.getContactos3(this.id_usuario);
+
+    loading.dismiss();
+
   }
 
   /*async cargarToken() {
